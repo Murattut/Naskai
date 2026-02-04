@@ -16,7 +16,7 @@ export const TaskListWidget = () => {
     }, [fetchTasks]);
 
     // Handle toggle via store
-    const toggleTask = async (id: number, currentStatus: number) => {
+    const toggleTask = async (id: number, currentStatus: boolean) => {
         await updateTask(id, { isCompleted: !currentStatus });
     };
 

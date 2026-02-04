@@ -27,7 +27,7 @@ export default function TasksPage() {
     }, [session, isPending, router, fetchTasks]);
 
     // Handle Task Updates (via Store)
-    const toggleTask = async (id: number, currentStatus: number) => {
+    const toggleTask = async (id: number, currentStatus: boolean) => {
         await updateTask(id, { isCompleted: !currentStatus });
     };
 

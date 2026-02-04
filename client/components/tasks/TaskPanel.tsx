@@ -75,7 +75,7 @@ export const TaskPanel = ({ task, onClose, onSave }: TaskPanelProps) => {
             content,
             date, // Backend should handle date string parsing
             image: image || undefined,
-            isCompleted: isCompleted ? 1 : 0
+            isCompleted: isCompleted
         });
     };
 
