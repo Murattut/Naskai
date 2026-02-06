@@ -3,10 +3,8 @@
 import Link from "next/link";
 import { signUp } from "../auth_client";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; 
 
 export default function SignupPage() {
-    const router = useRouter(); 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -22,14 +20,15 @@ export default function SignupPage() {
                 email,
                 password,
                 name,
-                callbackURL: "/dashboard", 
+                callbackURL: "/dashboard",
             }, {
                 onRequest: () => {
                     setLoading(true);
                 },
                 onSuccess: async () => {
-                    router.refresh(); 
-                    router.replace("/dashboard"); 
+                    // Wait a bit to ensure session is established
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    window.location.href = "/dashboard";
                 },
                 onError: (ctx) => {
                     setLoading(false);

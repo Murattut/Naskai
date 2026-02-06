@@ -3,10 +3,8 @@
 import Link from "next/link";
 import { signIn } from "../auth_client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-    const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -20,14 +18,15 @@ export default function LoginPage() {
             await signIn.email({
                 email,
                 password,
-                callbackURL: "/dashboard", // Dont touch this ı dont need it but ıt can stay as fallback
+                callbackURL: "/dashboard",
             }, {
                 onRequest: () => {
                     setLoading(true);
                 },
                 onSuccess: async () => {
-                    router.refresh();
-                    router.replace("/dashboard");
+                    // Wait a bit to ensure session is established
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    window.location.href = "/dashboard";
                 },
                 onError: (ctx) => {
                     setLoading(false);
