@@ -10,8 +10,8 @@ export const Features = () => {
         },
         {
             icon: <FaClipboardList className="w-8 h-8 text-blue-600" />,
-            title: "Task Extraction",
-            description: "Automatically convert messy brainstorming notes into clear, actionable to-do lists.",
+            title: "Task Management",
+            description: "Organize your daily to-dos efficiently with a clean and intuitive interface.",
         },
         {
             icon: <FaMagic className="w-8 h-8 text-blue-600" />,
@@ -21,7 +21,7 @@ export const Features = () => {
     ];
 
     return (
-        <section id="features" className="py-24 bg-gray-50 dark:bg-neutral-900/50">
+        <section id="features" className="py-24 bg-white dark:bg-neutral-900">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <h1 className="text-3xl font-bold tracking-wide text-blue-600 uppercase mb-2">Features</h1>

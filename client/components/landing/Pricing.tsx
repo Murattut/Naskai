@@ -14,15 +14,21 @@ const FeatureItem = ({ text }: { text: string }) => (
 
 export const Pricing = () => {
     return (
-        <section id="pricing" className="py-24">
+        <section id="pricing" className="py-24 bg-white dark:bg-neutral-900">
             <div className="container mx-auto px-4">
-                <div className="text-center max-w-3xl mx-auto mb-16">
+                <div className="text-center max-w-3xl mx-auto mb-6">
                     <h2 className="text-3xl font-bold tracking-wide text-blue-600 uppercase mb-2">Pricing</h2>
                     <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                         Simple, transparent pricing
                     </h3>
                     <p className="text-lg text-gray-600 dark:text-gray-400">
                         Start for free, upgrade when you need more power.
+                    </p>
+                </div>
+
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-12 max-w-3xl mx-auto text-center">
+                    <p className="text-yellow-800 dark:text-yellow-200 text-sm font-medium">
+                        ⚠️ Important Notice: Naskai is an educational project. All plans below are for demonstration purposes only. No actual payments will be processed.
                     </p>
                 </div>
 

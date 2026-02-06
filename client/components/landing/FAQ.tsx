@@ -17,28 +17,28 @@ export const FAQ = () => {
     const faqItems = [
         {
             key: "q1",
-            question: "Is there a free trial?",
-            answer: "Yes, you can try Naskai for free with our Starter plan, which includes 5 tasks per day and basic note-taking features.",
+            question: "Is Naskai really free?",
+            answer: "Yes! Currently, Naskai is an open-access educational project. You can use all features without any cost.",
         },
         {
             key: "q2",
             question: "How does the AI summarization work?",
-            answer: "Our AI analyzes your note's content and extracts the key points, creating a concise summary that saves you reading time.",
+            answer: "We use Groq's high-performance AI models to analyze your note's content and generate concise summaries instantly.",
         },
         {
             key: "q3",
-            question: "Can I convert notes to tasks automatically?",
-            answer: "Absolutely! The Task Extraction feature identifies action items within your notes and automatically adds them to your task list.",
+            question: "Is this a commercial product?",
+            answer: "No, Naskai is built for demonstration and learning purposes. It serves as a portfolio piece showcasing modern web technologies.",
         },
         {
             key: "q4",
             question: "Is my data secure?",
-            answer: "Security is our top priority. All your notes and tasks are encrypted and stored deeply securely.",
+            answer: "While we implement standard security practices, please do not store sensitive personal or financial information as this is a demonstration environment.",
         },
     ];
 
     return (
-        <section id="faq" className="py-24 bg-gray-50 dark:bg-neutral-900/30">
+        <section id="faq" className="py-24 bg-white dark:bg-neutral-900">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <h2 className="text-sm font-bold tracking-wide text-blue-600 uppercase mb-2">Support</h2>
