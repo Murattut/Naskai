@@ -1,8 +1,11 @@
 import express from "express";
+import { config } from "dotenv";
+config({ path: "./config/.env" });
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./auth.js";
 import cors from "cors";
 import UserRoutes from "./routes/UserRoutes.js";
+import AIRoutes from "./routes/AIRoutes.js";
 
 const app = express();
 const port = 8000;
@@ -17,7 +20,8 @@ app.all("/api/auth/{*any}", toNodeHandler(auth));
 
 app.use(express.json());
 
-app.use("/api", UserRoutes);
+app.use("/api/user", UserRoutes);
+app.use("/api/ai", AIRoutes);
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);

@@ -12,8 +12,6 @@ const getSessionUser = async (req) => {
 
 /* --- NOTE CONTROLLERS --- */
 
-/* --- NOTE CONTROLLERS --- */
-
 export const addNote = async (req, res) => {
     try {
         const user = await getSessionUser(req);
