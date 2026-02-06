@@ -71,8 +71,42 @@ export const NotePanel = ({ note, onClose, onSave }: NotePanelProps) => {
     const isFuture = date > today;
     const isToday = date === today;
 
-    const handleAiAction = (action: 'summary' | 'enhance') => {
-        alert(`AI ${action} feature coming soon!`);
+    const [isAiLoading, setIsAiLoading] = useState(false);
+
+    const handleAiAction = async (action: 'summary' | 'enhance') => {
+        if (!content) return alert("Please add some content first.");
+
+        setIsAiLoading(true);
+        try {
+            const endpoint = action === 'summary'
+                ? 'http://localhost:8000/api/ai/generate-summary-title'
+                : 'http://localhost:8000/api/ai/generate-enhanced-content';
+
+            const res = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ content }),
+                credentials: 'include'
+            });
+
+            if (!res.ok) throw new Error("AI Request Failed");
+
+            const data = await res.json();
+
+            if (action === 'summary' && data.title) {
+                setTitle(data.title);
+            } else if (action === 'enhance' && data.enhancedContent) {
+                setContent(data.enhancedContent);
+            }
+
+        } catch (error) {
+            console.error("AI Action Error:", error);
+            alert("Something went wrong with AI generation.");
+        } finally {
+            setIsAiLoading(false);
+        }
     };
 
     return (
@@ -94,18 +128,38 @@ export const NotePanel = ({ note, onClose, onSave }: NotePanelProps) => {
                         <button
                             type="button"
                             onClick={() => handleAiAction('summary')}
-                            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-purple-600 bg-purple-50 hover:bg-purple-100 dark:text-purple-300 dark:bg-purple-900/20 dark:hover:bg-purple-900/40 rounded-lg transition-colors"
+                            disabled={isAiLoading || !content}
+                            className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${isAiLoading
+                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                    : 'text-purple-600 bg-purple-50 hover:bg-purple-100 dark:text-purple-300 dark:bg-purple-900/20 dark:hover:bg-purple-900/40'
+                                }`}
                         >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                            Summarize
+                            <svg className={`w-4 h-4 ${isAiLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                {isAiLoading ? (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v4m0 4v4m-4-4H4m4 0H4m16 0h-4m4 0h-4m0-4h4m-4 0h4m-4 0h-4m0 0l-4 4m4-4l4 4" /> // Simple spinner placeholder path or stick to original icon with spin class
+                                ) : (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                )}
+                            </svg>
+                            {isAiLoading ? 'Summarizing...' : 'Summarize'}
                         </button>
                         <button
                             type="button"
                             onClick={() => handleAiAction('enhance')}
-                            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-teal-600 bg-teal-50 hover:bg-teal-100 dark:text-teal-300 dark:bg-teal-900/20 dark:hover:bg-teal-900/40 rounded-lg transition-colors"
+                            disabled={isAiLoading || !content}
+                            className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${isAiLoading
+                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                    : 'text-teal-600 bg-teal-50 hover:bg-teal-100 dark:text-teal-300 dark:bg-teal-900/20 dark:hover:bg-teal-900/40'
+                                }`}
                         >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                            Enhance
+                            <svg className={`w-4 h-4 ${isAiLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                {isAiLoading ? (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v4m0 4v4m-4-4H4m4 0H4m16 0h-4m4 0h-4m0-4h4m-4 0h4m-4 0h-4m0 0l-4 4m4-4l4 4" /> // Placeholder
+                                ) : (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                )}
+                            </svg>
+                            {isAiLoading ? 'Enhancing...' : 'Enhance'}
                         </button>
                         <button
                             onClick={onClose}

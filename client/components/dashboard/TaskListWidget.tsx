@@ -29,14 +29,14 @@ export const TaskListWidget = () => {
 
     return (
         <div className="bg-white dark:bg-neutral-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-neutral-700 h-full flex flex-col">
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-gray-900 dark:text-white text-lg">My Tasks</h3>
+            <div className="flex items-center justify-between mb-4 shrink-0">
+                <h3 className="font-bold text-gray-900 dark:text-white text-lg">My Tasks ({tasks.length})</h3>
                 <Link href="/tasks" className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium">
                     View All
                 </Link>
             </div>
 
-            <div className="flex-1 space-y-3">
+            <div className="flex-1 space-y-3 overflow-y-auto">
                 {loading ? (
                     <div className="text-gray-400 text-sm text-center py-4">Loading tasks...</div>
                 ) : displayTasks.length === 0 ? (
@@ -49,7 +49,7 @@ export const TaskListWidget = () => {
                             <button
                                 onClick={() => toggleTask(task.id, task.isCompleted)}
                                 className={`
-                                    w-5 h-5 rounded border flex items-center justify-center transition-colors
+                                    w-5 h-5 rounded border flex items-center justify-center transition-colors shrink-0
                                     ${task.isCompleted
                                         ? 'bg-blue-600 border-blue-600'
                                         : 'border-gray-300 dark:border-neutral-600 hover:border-blue-500'}

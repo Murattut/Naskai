@@ -18,14 +18,14 @@ export const NoteListWidget = () => {
 
     return (
         <div className="bg-white dark:bg-neutral-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-neutral-700 h-full flex flex-col">
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-gray-900 dark:text-white text-lg">My Notes</h3>
+            <div className="flex items-center justify-between mb-4 shrink-0">
+                <h3 className="font-bold text-gray-900 dark:text-white text-lg">My Notes ({notes.length})</h3>
                 <Link href="/notes" className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium">
                     View All
                 </Link>
             </div>
 
-            <div className="flex-1 space-y-3">
+            <div className="flex-1 space-y-3 overflow-y-auto">
                 {loading ? (
                     <div className="text-gray-400 text-sm text-center py-4">Loading notes...</div>
                 ) : displayNotes.length === 0 ? (
