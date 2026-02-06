@@ -20,11 +20,11 @@ export const addNote = async (req, res) => {
         const { title, content, summary, imageUrl, date } = req.body;
 
         // Add note to database
-        // Use provided date as createdAt if available (for backdating/future), else default
-        const createdAt = date ? date : new Date().toISOString();
+        // Use provided date as date if available (for backdating/future), else default
+        const noteDate = date ? date : new Date().toISOString();
 
-        const stmt = db.prepare("INSERT INTO note (title, content, summary, imageUrl, createdAt, userId) VALUES (?, ?, ?, ?, ?, ?)");
-        const info = stmt.run(title || "Adsız Not", content, summary, imageUrl, createdAt, user.id);
+        const stmt = db.prepare("INSERT INTO note (title, content, summary, imageUrl, date, userId) VALUES (?, ?, ?, ?, ?, ?)");
+        const info = stmt.run(title || "Adsız Not", content, summary, imageUrl, noteDate, user.id);
 
         // Return added note
         const newNote = db.prepare("SELECT * FROM note WHERE id = ?").get(info.lastInsertRowid);
@@ -39,7 +39,8 @@ export const getAllNotes = async (req, res) => {
         const user = await getSessionUser(req);
         if (!user) return res.status(401).json({ error: "Unauthorized" });
 
-        const notes = db.prepare("SELECT * FROM note WHERE userId = ? ORDER BY createdAt DESC").all(user.id);
+        // Order by date DESC
+        const notes = db.prepare("SELECT * FROM note WHERE userId = ? ORDER BY date DESC").all(user.id);
         res.status(200).json(notes);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -77,7 +78,7 @@ export const updateNote = async (req, res) => {
         if (content !== undefined) { updateFields.push("content = ?"); updateValues.push(content); }
         if (summary !== undefined) { updateFields.push("summary = ?"); updateValues.push(summary); }
         if (imageUrl !== undefined) { updateFields.push("imageUrl = ?"); updateValues.push(imageUrl); }
-        if (date !== undefined) { updateFields.push("createdAt = ?"); updateValues.push(date); }
+        if (date !== undefined) { updateFields.push("date = ?"); updateValues.push(date); }
 
         if (updateFields.length === 0) return res.status(400).json({ error: "No fields to update" });
 
@@ -119,11 +120,11 @@ export const addTask = async (req, res) => {
 
         const { title, content, date, imageUrl, isCompleted } = req.body;
 
-        // date from client maps to dueDate in DB
-        const dueDate = date ? date : new Date().toISOString();
+        // date from client maps to date in DB
+        const taskDate = date ? date : new Date().toISOString();
 
-        const stmt = db.prepare("INSERT INTO task (title, content, dueDate, imageUrl, userId, isCompleted) VALUES (?, ?, ?, ?, ?, ?)");
-        const info = stmt.run(title, content, dueDate, imageUrl, user.id, isCompleted ? 1 : 0);
+        const stmt = db.prepare("INSERT INTO task (title, content, date, imageUrl, userId, isCompleted) VALUES (?, ?, ?, ?, ?, ?)");
+        const info = stmt.run(title, content, taskDate, imageUrl, user.id, isCompleted ? 1 : 0);
 
         const newTask = db.prepare("SELECT * FROM task WHERE id = ?").get(info.lastInsertRowid);
         res.status(201).json(newTask);
@@ -137,7 +138,8 @@ export const getAllTasks = async (req, res) => {
         const user = await getSessionUser(req);
         if (!user) return res.status(401).json({ error: "Unauthorized" });
 
-        const tasks = db.prepare("SELECT * FROM task WHERE userId = ? ORDER BY createdAt DESC").all(user.id);
+        // Order by date DESC
+        const tasks = db.prepare("SELECT * FROM task WHERE userId = ? ORDER BY date DESC").all(user.id);
         res.status(200).json(tasks);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -172,7 +174,7 @@ export const updateTask = async (req, res) => {
 
         if (title !== undefined) { updateFields.push("title = ?"); updateValues.push(title); }
         if (content !== undefined) { updateFields.push("content = ?"); updateValues.push(content); }
-        if (date !== undefined) { updateFields.push("dueDate = ?"); updateValues.push(date); }
+        if (date !== undefined) { updateFields.push("date = ?"); updateValues.push(date); }
         if (imageUrl !== undefined) { updateFields.push("imageUrl = ?"); updateValues.push(imageUrl); }
         if (isCompleted !== undefined) { updateFields.push("isCompleted = ?"); updateValues.push(isCompleted ? 1 : 0); }
 
