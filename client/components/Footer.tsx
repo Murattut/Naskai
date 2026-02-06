@@ -24,19 +24,17 @@ export const Footer = () => {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:w-2/3">
                         <div className="flex flex-col gap-3">
                             <h5 className="font-semibold text-gray-900 dark:text-gray-100">Product</h5>
-                            <Link href="#features" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Features</Link>
-                            <Link href="#pricing" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Pricing</Link>
-                            <Link href="#faq" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">FAQ</Link>
+                            <Link href="/#features" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Features</Link>
+                            <Link href="/#pricing" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Pricing</Link>
+                            <Link href="/#faq" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">FAQ</Link>
                         </div>
                         <div className="flex flex-col gap-3">
-                            <h5 className="font-semibold text-gray-900 dark:text-gray-100">Company</h5>
-                            <Link href="/aboutus" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Us</Link>
-                            <Link href="/blog" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Blog</Link>
+                            <h5 className="font-semibold text-gray-900 dark:text-gray-100">About Us</h5>
+                            <Link href="/aboutus" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Our Story</Link>
                         </div>
                         <div className="flex flex-col gap-3">
                             <h5 className="font-semibold text-gray-900 dark:text-gray-100">Legal</h5>
-                            <Link href="/privacy" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy</Link>
-                            <Link href="/terms" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms</Link>
+                            <Link href="/legal" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Legal Disclaimer</Link>
                         </div>
                     </div>
                 </div>
