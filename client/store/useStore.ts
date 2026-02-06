@@ -8,6 +8,7 @@ interface TaskState {
     addTask: (task: Partial<Task>) => Promise<void>;
     updateTask: (id: number, updates: Partial<Task>) => Promise<void>;
     deleteTask: (id: number) => Promise<void>;
+    duplicateTask: (id: number) => Promise<void>;
 }
 
 interface NoteState {
@@ -17,6 +18,7 @@ interface NoteState {
     addNote: (note: Partial<Note>) => Promise<void>;
     updateNote: (id: number, updates: Partial<Note>) => Promise<void>;
     deleteNote: (id: number) => Promise<void>;
+    duplicateNote: (id: number) => Promise<void>;
 }
 
 const API_URL = "http://localhost:8000/api";
@@ -28,7 +30,7 @@ export const useTaskStore = create<TaskState>((set, get) => ({
     fetchTasks: async () => {
         set({ isLoading: true });
         try {
-            const res = await fetch(`${API_URL}/tasks`, { credentials: "include" });
+            const res = await fetch(`${API_URL}/user/tasks`, { credentials: "include" });
             if (res.ok) {
                 const data = await res.json();
                 set({ tasks: data });
@@ -44,7 +46,7 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         // Optimistic update (optional, but let's stick to simple API first for reliability)
         // actually, let's wait for server response to get ID
         try {
-            const res = await fetch(`${API_URL}/tasks`, {
+            const res = await fetch(`${API_URL}/user/tasks`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(taskData),
@@ -66,7 +68,7 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         }));
 
         try {
-            await fetch(`${API_URL}/tasks/${id}`, {
+            await fetch(`${API_URL}/user/tasks/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updates),
@@ -86,7 +88,7 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         }));
 
         try {
-            await fetch(`${API_URL}/tasks/${id}`, {
+            await fetch(`${API_URL}/user/tasks/${id}`, {
                 method: "DELETE",
                 credentials: "include"
             });
@@ -94,6 +96,21 @@ export const useTaskStore = create<TaskState>((set, get) => ({
             console.error("Failed to delete task", error);
             get().fetchTasks();
         }
+    },
+
+    duplicateTask: async (id) => {
+        const taskToDuplicate = get().tasks.find((t) => t.id === id);
+        if (!taskToDuplicate) return;
+
+        const duplicatedTask = {
+            title: `${taskToDuplicate.title} (Copy)`,
+            content: taskToDuplicate.content,
+            isCompleted: false,
+            date: taskToDuplicate.date,
+            image: taskToDuplicate.image,
+        };
+
+        await get().addTask(duplicatedTask);
     },
 }));
 
@@ -104,7 +121,7 @@ export const useNoteStore = create<NoteState>((set, get) => ({
     fetchNotes: async () => {
         set({ isLoading: true });
         try {
-            const res = await fetch(`${API_URL}/notes`, { credentials: "include" });
+            const res = await fetch(`${API_URL}/user/notes`, { credentials: "include" });
             if (res.ok) {
                 const data = await res.json();
                 set({ notes: data });
@@ -118,7 +135,7 @@ export const useNoteStore = create<NoteState>((set, get) => ({
 
     addNote: async (noteData) => {
         try {
-            const res = await fetch(`${API_URL}/notes`, {
+            const res = await fetch(`${API_URL}/user/notes`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(noteData),
@@ -139,7 +156,7 @@ export const useNoteStore = create<NoteState>((set, get) => ({
         }));
 
         try {
-            await fetch(`${API_URL}/notes/${id}`, {
+            await fetch(`${API_URL}/user/notes/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updates),
@@ -157,7 +174,7 @@ export const useNoteStore = create<NoteState>((set, get) => ({
         }));
 
         try {
-            await fetch(`${API_URL}/notes/${id}`, {
+            await fetch(`${API_URL}/user/notes/${id}`, {
                 method: "DELETE",
                 credentials: "include"
             });
@@ -165,6 +182,21 @@ export const useNoteStore = create<NoteState>((set, get) => ({
             console.error("Failed to delete note", error);
             get().fetchNotes();
         }
+    },
+
+    duplicateNote: async (id) => {
+        const noteToDuplicate = get().notes.find((n) => n.id === id);
+        if (!noteToDuplicate) return;
+
+        const duplicatedNote = {
+            title: noteToDuplicate.title ? `${noteToDuplicate.title} (Copy)` : "(Copy)",
+            content: noteToDuplicate.content,
+            summary: noteToDuplicate.summary,
+            date: noteToDuplicate.date,
+            image: noteToDuplicate.image,
+        };
+
+        await get().addNote(duplicatedNote);
     },
 }));
 
