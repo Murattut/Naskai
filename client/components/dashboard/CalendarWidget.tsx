@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useTaskStore, useNoteStore } from "@/store/useStore";
+import { isSameDay, parseISO } from "date-fns";
 
 export const CalendarWidget = () => {
     const tasks = useTaskStore((state) => state.tasks);
@@ -37,35 +38,16 @@ export const CalendarWidget = () => {
     const getDayItems = (day: number | null) => {
         if (!day) return { hasTasks: false, hasNotes: false };
 
-        // Create comparable date strings for the calendar day in all common formats
-        const year = currentYear;
-        const month = today.getMonth() + 1;
-        const dateStr1 = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`; // YYYY-MM-DD
-        const dateStr2 = `${month}/${day}/${year}`; // M/D/YYYY
-        const dateStr3 = `${month}/${String(day).padStart(2, '0')}/${year}`; // M/DD/YYYY
-        const dateStr4 = `${String(month).padStart(2, '0')}/${day}/${year}`; // MM/D/YYYY
-        const dateStr5 = `${String(month).padStart(2, '0')}/${String(day).padStart(2, '0')}/${year}`; // MM/DD/YYYY
+        const calendarDate = new Date(currentYear, today.getMonth(), day);
 
         const hasTasks = tasks.some(task => {
             if (!task.date) return false;
-            const taskDate = task.date.split('T')[0]; // Remove time if present
-            return taskDate === dateStr1 ||
-                taskDate === dateStr2 ||
-                taskDate === dateStr3 ||
-                taskDate === dateStr4 ||
-                taskDate === dateStr5 ||
-                taskDate.startsWith(dateStr1);
+            return isSameDay(parseISO(task.date), calendarDate);
         });
 
         const hasNotes = notes.some(note => {
             if (!note.date) return false;
-            const noteDate = note.date.split('T')[0]; // Remove time if present
-            return noteDate === dateStr1 ||
-                noteDate === dateStr2 ||
-                noteDate === dateStr3 ||
-                noteDate === dateStr4 ||
-                noteDate === dateStr5 ||
-                noteDate.startsWith(dateStr1);
+            return isSameDay(parseISO(note.date), calendarDate);
         });
 
         return { hasTasks, hasNotes };
@@ -96,15 +78,15 @@ export const CalendarWidget = () => {
                                 h-8 w-8 flex flex-col items-center justify-center rounded-full text-sm relative
                                 ${!day ? 'invisible' : ''}
                                 ${isToday
-                                    ? 'bg-blue-600 text-white font-bold shadow-md'
+                                    ? 'border border-blue-600 text-blue-600 dark:text-blue-400 font-bold'
                                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 cursor-pointer'}
                             `}
                         >
                             <span>{day}</span>
                             {day && (hasTasks || hasNotes) && (
-                                <div className="absolute bottom-0 flex gap-0.5">
-                                    {hasTasks && <div className={`w-1 h-1 rounded-full ${isToday ? 'bg-white' : 'bg-blue-500'}`} />}
-                                    {hasNotes && <div className={`w-1 h-1 rounded-full ${isToday ? 'bg-white' : 'bg-green-500'}`} />}
+                                <div className="absolute bottom-1 flex gap-0.5">
+                                    {hasTasks && <div className="w-1 h-1 rounded-full bg-blue-500" />}
+                                    {hasNotes && <div className="w-1 h-1 rounded-full bg-green-500" />}
                                 </div>
                             )}
                         </div>
