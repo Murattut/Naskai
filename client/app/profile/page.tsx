@@ -41,7 +41,7 @@ export default function ProfilePage() {
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <Link href="/tasks" className="group">
-                        <div className="bg-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                        <div className="bg-gray-700 dark:bg-neutral-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-blue-100 text-sm font-medium">Total Tasks</p>
@@ -56,7 +56,7 @@ export default function ProfilePage() {
                     </Link>
 
                     <Link href="/notes" className="group">
-                        <div className="bg-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                        <div className="bg-gray-700 dark:bg-neutral-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-green-100 text-sm font-medium">Total Notes</p>
@@ -70,7 +70,7 @@ export default function ProfilePage() {
                         </div>
                     </Link>
 
-                    <div className="bg-gray-700 rounded-2xl p-6 shadow-lg">
+                    <div className="bg-gray-700 dark:bg-neutral-800 rounded-2xl p-6 shadow-lg">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-purple-100 text-sm font-medium">Productivity</p>
@@ -87,7 +87,7 @@ export default function ProfilePage() {
                 {/* Profile Card */}
                 <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-neutral-700">
                     {/* Cover / Header color */}
-                    <div className="h-32 bg-gray-600"></div>
+                    <div className="h-32 bg-gray-600 dark:bg-neutral-700"></div>
 
                     <div className="px-8 pb-8">
                         {/* Avatar */}
