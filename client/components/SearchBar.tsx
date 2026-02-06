@@ -12,6 +12,7 @@ export const SearchBar = () => {
     const { notes, fetchNotes } = useNoteStore();
     const [showResults, setShowResults] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     // Initial fetch if empty (to enable search even if user hasn't visited pages)
     // Actually, only fetch if user interacts or session active?
@@ -45,6 +46,7 @@ export const SearchBar = () => {
     return (
         <div ref={wrapperRef} className="relative w-full max-w-md">
             <input
+                ref={inputRef}
                 type="text"
                 value={searchQuery}
                 onChange={(e) => {
@@ -53,9 +55,15 @@ export const SearchBar = () => {
                 }}
                 onFocus={() => setShowResults(true)}
                 placeholder="Search..."
-                className="w-full bg-gray-100 dark:bg-neutral-800 border-none rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 transition-all"
+                className="w-full bg-gray-100 dark:bg-neutral-800 border-none rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-0 transition-all"
             />
-            <svg className="w-4 h-4 absolute right-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <button
+                onClick={() => inputRef.current?.focus()}
+                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                aria-label="Focus search"
+            >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </button>
 
             {/* Results Dropdown */}
             {showResults && searchQuery && (
