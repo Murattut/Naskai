@@ -53,6 +53,6 @@ app.get("/api/ping", (req, res) => {
     });
 });
 
-app.listen(port, () => {
-    console.log(`Server listening on client url ${process.env.CLIENT_URL} and server port ${port}`);
+app.listen(port, "0.0.0.0", () => {
+    console.log(`Server listening on port ${port}. Allowed Origin: ${process.env.CLIENT_URL}`);
 });
