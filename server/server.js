@@ -1,14 +1,17 @@
 import express from "express";
+import cors from "cors";
+
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./auth.js";
-import cors from "cors";
+
 import UserRoutes from "./routes/UserRoutes.js";
 import AIRoutes from "./routes/AIRoutes.js";
-import dotenv from "dotenv";
-dotenv.config();
+
 
 const app = express();
 const port = process.env.PORT;
+
+app.set("trust proxy", 1); // Trust first proxy (Render/Vercel)
 
 app.use(cors({
     origin: process.env.CLIENT_URL,

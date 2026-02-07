@@ -8,7 +8,7 @@ const authToken = process.env.TURSO_AUTH_TOKEN;
 
 
 if (!url || !authToken) {
-    console.error("Error: TURSO_DATABASE_URL or TURSO_AUTH_TOKEN not found in .env");
+    console.error("Error: TURSO_DATABASE_URL or TURSO_AUTH_TOKEN not found in .env db.js");
     process.exit(1);
 }
 
