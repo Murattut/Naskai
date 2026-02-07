@@ -33,7 +33,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+app.options("/{*splat}", cors(corsOptions));
 
 app.set("trust proxy", 1); // Trust first proxy (Render/Vercel)
 
