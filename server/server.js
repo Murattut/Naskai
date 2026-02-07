@@ -1,11 +1,11 @@
-import express from "express";
-import { config } from "dotenv";
-config({ path: "./config/.env" });
+import express from "express";   
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./auth.js";
 import cors from "cors";
 import UserRoutes from "./routes/UserRoutes.js";
 import AIRoutes from "./routes/AIRoutes.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 8000;
