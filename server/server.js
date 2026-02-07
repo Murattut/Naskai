@@ -23,6 +23,22 @@ app.use(express.json());
 app.use("/api/user", UserRoutes);
 app.use("/api/ai", AIRoutes);
 
+// Ping-pong endpoint for health check
+app.get("/api/ping", (req, res) => {
+    const clientTimestamp = req.query.timestamp;
+    const serverTimestamp = new Date().toISOString();
+
+    console.log(`Ping received from client at ${clientTimestamp}`);
+    console.log(`Ping sent to client at ${serverTimestamp}`);
+
+    res.json({
+        message: "Ping",
+        clientTimestamp,
+        serverTimestamp,
+        timeDiff: clientTimestamp ? new Date(serverTimestamp) - new Date(clientTimestamp) : null
+    });
+});
+
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+    console.log(`Server listening on client url ${process.env.CLIENT_URL} and server port ${port}`);
 });
