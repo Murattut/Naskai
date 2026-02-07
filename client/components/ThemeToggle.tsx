@@ -1,20 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { MdOutlineWbSunny, MdNightlightRound } from "react-icons/md";
 
 export function ThemeToggle({ className }: { className?: string }) {
-    const [mounted, setMounted] = useState(false);
     const { theme, setTheme } = useTheme();
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) {
-        return null;
-    }
 
     const toggleTheme = () => {
         setTheme(theme === "dark" ? "light" : "dark");
