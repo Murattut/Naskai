@@ -1,8 +1,6 @@
 import { auth } from "../auth.js";
 import { fromNodeHeaders } from "better-auth/node";
 import Groq from "groq-sdk";
-import { config } from "dotenv";
-config({ path: "./config/.env" });
 
 const groq = new Groq({ apiKey: process.env.Groq_key });
 

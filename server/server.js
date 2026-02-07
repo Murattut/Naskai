@@ -1,6 +1,4 @@
 import express from "express";
-import { config } from "dotenv";
-config({ path: "./config/.env" });
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./auth.js";
 import cors from "cors";
@@ -11,11 +9,11 @@ const app = express();
 const port = 8000;
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: true,
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["POST", "GET", "PUT", "DELETE"],
 }));
+
 app.all("/api/auth/{*any}", toNodeHandler(auth));
 
 app.use(express.json());

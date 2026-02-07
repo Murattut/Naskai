@@ -8,6 +8,7 @@ export async function proxy(request: NextRequest) {
     // This is the recommended approach to optimistically redirect users
     // We recommend handling auth checks in each page/route
 	if (!sessionCookie) {
+		console.log("No session cookie found, redirecting to home page.");
 		return NextResponse.redirect(new URL("/", request.url));
 	}
 

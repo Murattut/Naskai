@@ -8,10 +8,4 @@ export const auth = betterAuth({
         autoSignIn: true,
     },
     trustedOrigins: ["http://localhost:3000"],
-    advanced: {
-        logger: {
-            level: "debug",
-            disabled: false
-        }
-    },
 });

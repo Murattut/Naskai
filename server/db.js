@@ -1,4 +1,6 @@
 import Database from "better-sqlite3";
+import { config } from "dotenv";
+config();
 
 const db = new Database("database.sqlite");
 db.pragma('journal_mode = WAL');
