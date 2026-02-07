@@ -3,17 +3,23 @@
 import { useSession } from "@/app/auth_client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { CalendarWidget } from "@/components/dashboard/CalendarWidget";
 import { TaskListWidget } from "@/components/dashboard/TaskListWidget";
 import { NoteListWidget } from "@/components/dashboard/NoteListWidget";
 
 export default function DashboardPage() {
+    console.log("DashboardPage");
     const { data: session, isPending } = useSession();
+    console.log("DashboardPage Session:", session);
+    console.log("DashboardPage Is Pending:", isPending);
     const router = useRouter();
 
+    const isRedirecting = useRef(false);
+
     useEffect(() => {
-        if (!isPending && !session) {
+        if (!isPending && !session && !isRedirecting.current) {
+            isRedirecting.current = true;
             router.push("/login");
         }
     }, [session, isPending, router]);

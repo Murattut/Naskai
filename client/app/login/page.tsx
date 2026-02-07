@@ -24,12 +24,14 @@ export default function LoginPage() {
                     setLoading(true);
                 },
                 onSuccess: async () => {
+                    console.log("Login successful with email: ", email);
                     // Wait a bit to ensure session is established
                     await new Promise(resolve => setTimeout(resolve, 100));
                     window.location.href = "/dashboard";
                 },
                 onError: (ctx) => {
                     setLoading(false);
+                    console.log("Login error:", ctx.error);
                     setError(ctx.error.message || "An error occurred while logging in.");
                 }
             });
