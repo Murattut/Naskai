@@ -8,10 +8,10 @@ import UserRoutes from "./routes/UserRoutes.js";
 import AIRoutes from "./routes/AIRoutes.js";
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["POST", "GET", "PUT", "DELETE"],
