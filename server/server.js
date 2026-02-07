@@ -13,10 +13,9 @@ const port = process.env.PORT;
 app.use(cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["POST", "GET", "PUT", "DELETE"],
 }));
-app.all("/api/auth/{*any}", toNodeHandler(auth));
+app.all("/api/auth/*splat", toNodeHandler(auth));
 
 app.use(express.json());
 

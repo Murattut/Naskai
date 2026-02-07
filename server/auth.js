@@ -17,6 +17,7 @@ export const auth = betterAuth({
         autoSignIn: true,
     },
     trustedOrigins: [process.env.CLIENT_URL],
+    baseURL: process.env.BETTER_AUTH_URL,
     advanced: {
         logger: {
             level: "debug",
