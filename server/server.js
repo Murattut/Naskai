@@ -3,6 +3,7 @@ import cors from "cors";
 
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./auth.js";
+import { getAllowedOrigins, isOriginAllowed } from "./config/origins.js";
 
 import UserRoutes from "./routes/UserRoutes.js";
 import AIRoutes from "./routes/AIRoutes.js";
@@ -11,14 +12,28 @@ import AIRoutes from "./routes/AIRoutes.js";
 const app = express();
 const port = process.env.PORT;
 
-app.use(cors({
-    origin: process.env.CLIENT_URL,
+const allowedOrigins = getAllowedOrigins();
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        // Allow non-browser requests and same-origin server-to-server calls.
+        if (!origin) {
+            return callback(null, true);
+        }
+        if (isOriginAllowed(origin, allowedOrigins)) {
+            return callback(null, true);
+        }
+        return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
     credentials: true,
-    methods: ["POST", "GET", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie", "set-auth-token", "X-Requested-With", "set-cookie", "accept"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
     preflightContinue: false,
-    optionsSuccessStatus: 204
-}));
+    optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.set("trust proxy", 1); // Trust first proxy (Render/Vercel)
 
@@ -67,5 +82,5 @@ app.get("/api/ping", (req, res) => {
 });
 
 app.listen(port, "0.0.0.0", () => {
-    console.log(`Server listening on port ${port}. Allowed Origin: ${process.env.CLIENT_URL}`);
+    console.log(`Server listening on port ${port}. Allowed Origins: ${allowedOrigins.join(", ")}`);
 });
