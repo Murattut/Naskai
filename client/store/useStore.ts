@@ -21,7 +21,7 @@ interface NoteState {
     duplicateNote: (id: number) => Promise<void>;
 }
 
-const API_URL = process.env.SERVER_URL;
+const API_URL = process.env.NEXT_PUBLIC_SERVER_URL + "/api";
 
 export const useTaskStore = create<TaskState>((set, get) => ({
     tasks: [],

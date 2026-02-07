@@ -79,8 +79,8 @@ export const NotePanel = ({ note, onClose, onSave }: NotePanelProps) => {
         setIsAiLoading(true);
         try {
             const endpoint = action === 'summary'
-                ? 'http://localhost:8000/api/ai/generate-summary-title'
-                : 'http://localhost:8000/api/ai/generate-enhanced-content';
+                ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/ai/generate-summary-title`
+                : `${process.env.NEXT_PUBLIC_SERVER_URL}/api/ai/generate-enhanced-content`;
 
             const res = await fetch(endpoint, {
                 method: 'POST',
@@ -130,8 +130,8 @@ export const NotePanel = ({ note, onClose, onSave }: NotePanelProps) => {
                             onClick={() => handleAiAction('summary')}
                             disabled={isAiLoading || !content}
                             className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${isAiLoading
-                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                    : 'text-purple-600 bg-purple-50 hover:bg-purple-100 dark:text-purple-300 dark:bg-purple-900/20 dark:hover:bg-purple-900/40'
+                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                : 'text-purple-600 bg-purple-50 hover:bg-purple-100 dark:text-purple-300 dark:bg-purple-900/20 dark:hover:bg-purple-900/40'
                                 }`}
                         >
                             <svg className={`w-4 h-4 ${isAiLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,8 +148,8 @@ export const NotePanel = ({ note, onClose, onSave }: NotePanelProps) => {
                             onClick={() => handleAiAction('enhance')}
                             disabled={isAiLoading || !content}
                             className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${isAiLoading
-                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                    : 'text-teal-600 bg-teal-50 hover:bg-teal-100 dark:text-teal-300 dark:bg-teal-900/20 dark:hover:bg-teal-900/40'
+                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                : 'text-teal-600 bg-teal-50 hover:bg-teal-100 dark:text-teal-300 dark:bg-teal-900/20 dark:hover:bg-teal-900/40'
                                 }`}
                         >
                             <svg className={`w-4 h-4 ${isAiLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">

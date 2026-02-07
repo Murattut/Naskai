@@ -30,7 +30,7 @@ export default function LoginPage() {
                 },
                 onError: (ctx) => {
                     setLoading(false);
-                    setError(ctx.error.message || "Giriş yapılamadı.");
+                    setError(ctx.error.message || "An error occurred while logging in.");
                 }
             });
         } catch (err) {

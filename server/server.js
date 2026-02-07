@@ -1,4 +1,4 @@
-import express from "express";   
+import express from "express";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./auth.js";
 import cors from "cors";
@@ -8,10 +8,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT;
 
 app.use(cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: process.env.CLIENT_URL,
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["POST", "GET", "PUT", "DELETE"],
@@ -23,7 +23,21 @@ app.use(express.json());
 app.use("/api/user", UserRoutes);
 app.use("/api/ai", AIRoutes);
 
-// Ping-pong endpoint for health check
+app.get("/ping", (req, res) => {
+    const clientTimestamp = req.query.timestamp;
+    const serverTimestamp = new Date().toISOString();
+
+    console.log(`Ping received from client at ${clientTimestamp}`);
+    console.log(`Ping sent to client at ${serverTimestamp}`);
+
+    res.json({
+        message: "Ping",
+        clientTimestamp,
+        serverTimestamp,
+        timeDiff: clientTimestamp ? new Date(serverTimestamp) - new Date(clientTimestamp) : null
+    });
+});
+
 app.get("/api/ping", (req, res) => {
     const clientTimestamp = req.query.timestamp;
     const serverTimestamp = new Date().toISOString();
