@@ -11,15 +11,25 @@ import AIRoutes from "./routes/AIRoutes.js";
 const app = express();
 const port = process.env.PORT;
 
-app.set("trust proxy", 1); // Trust first proxy (Render/Vercel)
-
 app.use(cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
     methods: ["POST", "GET", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie", "set-auth-token", "X-Requested-With", "set-cookie", "accept"],
+    preflightContinue: false,
+    optionsSuccessStatus: 204
 }));
-app.all("/api/auth/*splat", toNodeHandler(auth));
+
+app.set("trust proxy", 1); // Trust first proxy (Render/Vercel)
+
+app.all("/api/auth/*splat", async (req, res) => {
+    try {
+        return await toNodeHandler(auth)(req, res);
+    } catch (error) {
+        console.error("BETTER-AUTH ERROR:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
+    }
+});
 
 app.use(express.json());
 

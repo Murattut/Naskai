@@ -1,6 +1,3 @@
-import { betterAuth } from "better-auth";
-import db from "./db.js";
-
 export const auth = betterAuth({
     database: {
         db: db,
@@ -13,13 +10,14 @@ export const auth = betterAuth({
     trustedOrigins: [process.env.CLIENT_URL],
     baseURL: process.env.BETTER_AUTH_URL,
     advanced: {
-        cookieOptions: {
+        crossContextCookies: true,
+    },
+    cookie: {
+        namePrefix: "better-auth",
+        attributes: {
             sameSite: "none",
             secure: true,
-        },
-        logger: {
-            level: "debug",
-            disabled: false
+            httpOnly: true
         }
-    },
+    }
 });
