@@ -16,7 +16,7 @@ export const auth = betterAuth({
         enabled: true,
         autoSignIn: true,
     },
-    trustedOrigins: [process.env.CLIENT_URL || "http://localhost:3000"],
+    trustedOrigins: [process.env.CLIENT_URL],
     advanced: {
         logger: {
             level: "debug",

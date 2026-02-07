@@ -21,7 +21,7 @@ interface NoteState {
     duplicateNote: (id: number) => Promise<void>;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+const API_URL = process.env.SERVER_URL;
 
 export const useTaskStore = create<TaskState>((set, get) => ({
     tasks: [],
@@ -43,8 +43,6 @@ export const useTaskStore = create<TaskState>((set, get) => ({
     },
 
     addTask: async (taskData) => {
-        // Optimistic update (optional, but let's stick to simple API first for reliability)
-        // actually, let's wait for server response to get ID
         try {
             const res = await fetch(`${API_URL}/user/tasks`, {
                 method: "POST",

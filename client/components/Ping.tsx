@@ -15,7 +15,7 @@ export function Ping() {
 
             try {
                 const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/ping?timestamp=${encodeURIComponent(clientTimestamp)}`
+                    `${process.env.SERVER_URL}/ping?timestamp=${encodeURIComponent(clientTimestamp)}`
                 );
 
                 if (!response.ok) {
