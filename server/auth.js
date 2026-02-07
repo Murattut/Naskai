@@ -10,7 +10,7 @@ if (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN) {
 export const auth = betterAuth({
     database: {
         db: db,
-        type: "sqlite", // specific type for Kysely with LibSQL
+        type: "sqlite",
     },
     emailAndPassword: {
         enabled: true,
@@ -19,6 +19,10 @@ export const auth = betterAuth({
     trustedOrigins: [process.env.CLIENT_URL],
     baseURL: process.env.BETTER_AUTH_URL,
     advanced: {
+        cookieOptions: {
+            sameSite: "none",
+            secure: true,
+        },
         logger: {
             level: "debug",
             disabled: false

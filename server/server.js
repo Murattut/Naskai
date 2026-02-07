@@ -14,6 +14,7 @@ app.use(cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
     methods: ["POST", "GET", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
 }));
 app.all("/api/auth/*splat", toNodeHandler(auth));
 
