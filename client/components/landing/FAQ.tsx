@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { Icon } from "@/components/Icon";
 
 export const FAQ = () => {
     const [expanded, setExpanded] = useState<string[]>([]);
@@ -64,7 +64,8 @@ export const FAQ = () => {
                                     <span className="font-semibold text-lg text-gray-900 dark:text-gray-100 pr-4">
                                         {item.question}
                                     </span>
-                                    <MdKeyboardArrowDown
+                                    <Icon
+                                        name="arrow-down"
                                         size={24}
                                         className={`text-gray-500 transform transition-transform duration-300 shrink-0 ${isPanelOpen ? "rotate-180" : ""
                                             }`}

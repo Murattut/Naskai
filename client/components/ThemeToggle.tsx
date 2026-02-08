@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { MdOutlineWbSunny, MdNightlightRound } from "react-icons/md";
+import { Icon } from "./Icon";
 
 export function ThemeToggle({ className }: { className?: string }) {
     const { theme, setTheme } = useTheme();
@@ -16,7 +16,7 @@ export function ThemeToggle({ className }: { className?: string }) {
             className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-yellow-300 ${className}`}
             aria-label="Toggle Theme"
         >
-            {theme === "dark" ? <MdOutlineWbSunny size={20} /> : <MdNightlightRound size={20} />}
+            {theme === "dark" ? <Icon name="sun" size={20} /> : <Icon name="moon" size={20} />}
         </button>
     );
 }

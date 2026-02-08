@@ -1,12 +1,12 @@
 "use client";
 
-import { FaCheck } from "react-icons/fa6";
+import { Icon } from "@/components/Icon";
 import Link from "next/link";
 
 const FeatureItem = ({ text }: { text: string }) => (
     <div className="py-2 flex gap-3 items-center">
         <div className="shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-            <FaCheck className="w-3 h-3 text-green-600 dark:text-green-400" />
+            <Icon name="check" className="w-3 h-3 text-green-600 dark:text-green-400" />
         </div>
         <span className="text-gray-700 dark:text-gray-300 text-sm">{text}</span>
     </div>

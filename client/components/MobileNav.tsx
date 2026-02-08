@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { CiMenuBurger } from "react-icons/ci";
-import { MdClose } from "react-icons/md";
+import { Icon } from "./Icon";
 import { ThemeToggle } from "./ThemeToggle";
 import { useSession, signOut } from "@/app/auth_client";
 
@@ -22,7 +21,7 @@ export function MobileNav() {
                 onClick={() => setMenuOpen(!menuOpen)}
                 className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
             >
-                {menuOpen ? <MdClose size={24} /> : <CiMenuBurger size={24} />}
+                {menuOpen ? <Icon name="close" size={24} /> : <Icon name="menu" size={24} />}
             </button>
 
             {menuOpen && (

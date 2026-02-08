@@ -1,20 +1,20 @@
 "use client";
-import { FaRegLightbulb, FaClipboardList, FaMagic } from "react-icons/fa"; // Fallback to standard fa
+import { Icon } from "@/components/Icon";
 
 export const Features = () => {
     const features = [
         {
-            icon: <FaRegLightbulb className="w-8 h-8 text-blue-600" />,
+            icon: <Icon name="lightbulb" className="w-8 h-8 text-blue-600" />,
             title: "Smart Summarization",
             description: "Instantly condense long notes into concise summaries using advanced AI.",
         },
         {
-            icon: <FaClipboardList className="w-8 h-8 text-blue-600" />,
+            icon: <Icon name="clipboard" className="w-8 h-8 text-blue-600" />,
             title: "Task Management",
             description: "Organize your daily to-dos efficiently with a clean and intuitive interface.",
         },
         {
-            icon: <FaMagic className="w-8 h-8 text-blue-600" />,
+            icon: <Icon name="magic" className="w-8 h-8 text-blue-600" />,
             title: "AI Rewrite",
             description: "Enhance your writing clarity and tone with a single click.",
         },
