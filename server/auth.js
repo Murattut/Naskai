@@ -14,4 +14,17 @@ export const auth = betterAuth({
     trustedOrigins: [
         process.env.CLIENT_URL,
     ].filter(Boolean),
+    session: {
+        cookieCache: {
+            enabled: true,
+            maxAge: 5 * 60, // Cache duration in seconds 
+        },
+    },
+    // I dont why but ı take error when ı enable this option 
+    // advanced: {
+    //     crossSubDomainCookies: {
+    //         enabled: true,
+    //         domain: process.env.CLIENT_URL,
+    //     },
+    // },
 });
