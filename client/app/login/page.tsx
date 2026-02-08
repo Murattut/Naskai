@@ -13,11 +13,13 @@ export default function LoginPage() {
         setError(null);
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
+        const rememberMe = formData.get("rememberMe") === "on";
 
         try {
             await signIn.email({
                 email,
                 password,
+                rememberMe,
                 callbackURL: "/dashboard",
             }, {
                 onRequest: () => {
@@ -94,6 +96,20 @@ export default function LoginPage() {
                                 className="mt-1 block w-full px-3 py-2 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                                 placeholder="••••••••"
                             />
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="rememberMe"
+                                className="flex items-center text-sm text-gray-600 dark:text-gray-400"
+                            >
+                                <input
+                                    id="rememberMe"
+                                    name="rememberMe"
+                                    type="checkbox"
+                                    className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                />
+                                <span className="ml-2">Remember me</span>
+                            </label>
                         </div>
                     </div>
 
