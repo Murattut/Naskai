@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 
+// This is not best practice for SEO, but it is what it is. I also love this gif
+
 export default function NotFound() {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-neutral-900 px-4 text-center">
