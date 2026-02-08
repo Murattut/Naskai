@@ -4,9 +4,12 @@ import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
+
+// Vercel analytics and speed insights 
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
-import { Ping } from "../components/Ping";
+//import { Ping } from "../components/Ping";
+// use ping component when you need to send a ping to the server
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,12 +42,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Ping />
+          {/* <Ping /> */}
+          <SpeedInsights />
+          <Analytics />
           <Header />
           {children}
           <Footer />
-          <SpeedInsights />
-          <Analytics />
         </ThemeProvider>
       </body>
     </html>
