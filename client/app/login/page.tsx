@@ -3,45 +3,37 @@
 import Link from "next/link";
 import { signIn } from "../auth_client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+    const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (formData: FormData) => {
-        setLoading(true);
-        setError(null);
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
         const rememberMe = formData.get("rememberMe") === "on";
 
-        try {
-            await signIn.email({
-                email,
-                password,
-                rememberMe,
-                callbackURL: "/dashboard",
-            }, {
-                onRequest: () => {
-                    setLoading(true);
-                },
-                onSuccess: async () => {
-                    console.log("Login successful with email: ", email);
-                    // Wait a bit to ensure session is established
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                    window.location.href = "/dashboard";
-                },
-                onError: (ctx) => {
-                    setLoading(false);
-                    console.log("Login error:", ctx.error);
-                    setError(ctx.error.message || "An error occurred while logging in.");
-                }
-            });
-        } catch (err) {
-            console.error("Login error:", err);
-            setLoading(false);
-            setError("Failed to connect to the server. Please check your internet connection.");
-        }
+        await signIn.email({
+            email,
+            password,
+            rememberMe,
+            //callbackURL: "/dashboard",
+        }, {
+            onRequest: () => {
+                setLoading(true);
+                setError(null);
+            },
+            onSuccess: () => {
+                router.push("/dashboard");
+                router.refresh();
+            },
+            onError: (ctx) => {
+                setLoading(false);
+                setError(ctx.error.message || "An error occurred while logging in.");
+            }
+        });
     };
 
     return (
@@ -62,53 +54,40 @@ export default function LoginPage() {
                     )}
                     <div className="space-y-4">
                         <div>
-                            <label
-                                htmlFor="email"
-                                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                            >
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                 Email address
                             </label>
                             <input
                                 id="email"
                                 name="email"
                                 type="email"
-                                autoComplete="email"
                                 required
-                                className="mt-1 block w-full px-3 py-2 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                                className="mt-1 block w-full px-3 py-2 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="you@example.com"
                             />
                         </div>
                         <div>
-                            <div className="flex items-center justify-between">
-                                <label
-                                    htmlFor="password"
-                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                                >
-                                    Password
-                                </label>
-                            </div>
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Password
+                            </label>
                             <input
                                 id="password"
                                 name="password"
                                 type="password"
-                                autoComplete="current-password"
                                 required
-                                className="mt-1 block w-full px-3 py-2 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                                className="mt-1 block w-full px-3 py-2 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="••••••••"
                             />
                         </div>
-                        <div>
-                            <label
-                                htmlFor="rememberMe"
-                                className="flex items-center text-sm text-gray-600 dark:text-gray-400"
-                            >
-                                <input
-                                    id="rememberMe"
-                                    name="rememberMe"
-                                    type="checkbox"
-                                    className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                                />
-                                <span className="ml-2">Remember me</span>
+                        <div className="flex items-center">
+                            <input
+                                id="rememberMe"
+                                name="rememberMe"
+                                type="checkbox"
+                                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                            />
+                            <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-600 dark:text-gray-400">
+                                Remember me
                             </label>
                         </div>
                     </div>
@@ -116,19 +95,15 @@ export default function LoginPage() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 transition-colors"
                     >
-                        {loading ? "Signing in..." : "Sign in"}
+                        {loading ? "Loading..." : "Login"}
                     </button>
-
                 </form>
 
                 <p className="text-center text-sm text-gray-600 dark:text-gray-400">
                     Don&apos;t have an account?{" "}
-                    <Link
-                        href="/signup"
-                        className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400"
-                    >
+                    <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
                         Sign up
                     </Link>
                 </p>
