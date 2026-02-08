@@ -20,10 +20,6 @@ export const TaskListWidget = () => {
         await updateTask(id, { isCompleted: !currentStatus });
     };
 
-    // Derived state for widget (top 5)
-    // We can slice here. Since tasks are likely sorted by server or store, 
-    // assuming first ones are most recent or relevant. 
-    // If not, we could sort, but simplistic is fine for now.
     const displayTasks = tasks.slice(0, 5);
     const loading = isLoading && tasks.length === 0; // Only show loading if no data yet
 
