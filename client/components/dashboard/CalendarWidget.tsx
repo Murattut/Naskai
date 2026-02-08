@@ -37,12 +37,13 @@ export const CalendarWidget = () => {
     // Optimized Lookups: Create a Set of date strings for O(1) checking
     // Attention: 'yyyy-MM-dd' is required for date-fns library or error occurs
     // Also my IDE is bugging about this line, it says 'date' is not assignable to type 'string' but it is. (I think)
+    // TODO: Fix this line (fixed) but still this note will be stay here for a while.
     const taskDates = useMemo(() =>
-        new Set(tasks.filter(t => t.date).map(t => format(parseISO(t.date), 'yyyy-MM-dd'))),
+        new Set(tasks.filter(t => t.date).map(t => format(parseISO(t.date!), 'yyyy-MM-dd'))),
         [tasks]);
 
     const noteDates = useMemo(() =>
-        new Set(notes.filter(n => n.date).map(n => format(parseISO(n.date), 'yyyy-MM-dd'))),
+        new Set(notes.filter(n => n.date).map(n => format(parseISO(n.date!), 'yyyy-MM-dd'))),
         [notes]);
 
     return (
@@ -78,13 +79,13 @@ export const CalendarWidget = () => {
                             key={dateStr}
                             className={`
                                 h-9 w-9 flex flex-col items-center justify-center rounded-xl text-sm transition-all relative group
-                                ${isToday 
-                                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30' 
+                                ${isToday
+                                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
                                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700'}
                             `}
                         >
                             <span className={isToday ? 'font-bold' : ''}>{date.getDate()}</span>
-                            
+
                             {(hasTasks || hasNotes) && !isToday && (
                                 <div className="absolute bottom-1.5 flex gap-0.5">
                                     {hasTasks && <div className="w-1 h-1 rounded-full bg-blue-500" />}
