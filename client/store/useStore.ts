@@ -1,6 +1,12 @@
 import { create } from 'zustand';
 import { Task, Note } from '@/types';
 
+// This is a Zustand store for managing tasks and notes.
+// It also uses fetch to get data from the API.
+// It uses credentials: "include" to send cookies with the request.
+// It uses optimistic updates for better user experience. sooo if the API call fails, the state will be reverted.
+// I know this is not the best way to handle this but it works for now.
+
 interface TaskState {
     tasks: Task[];
     isLoading: boolean;
