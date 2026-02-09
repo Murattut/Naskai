@@ -68,7 +68,9 @@ export const Header = () => {
                     {/* Mobile Toggle Button */}
                     <button 
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="md:hidden p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+                        className="md:hidden p-2 rounded-lg border border-gray-300/80 dark:border-neutral-700 bg-white/90 dark:bg-neutral-800/90 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors"
+                        aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={mobileMenuOpen}
                     >
                         <Icon name={mobileMenuOpen ? "close" : "menu"} size={24} />
                     </button>
