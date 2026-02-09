@@ -82,7 +82,6 @@ export const TaskPanel = ({ task, onClose, onSave }: TaskPanelProps) => {
     // Date warning logic
     const today = new Date().toISOString().split('T')[0];
     const isPast = date < today;
-    const isFuture = date > today;
     const isToday = date === today;
 
     return (
@@ -130,6 +129,26 @@ export const TaskPanel = ({ task, onClose, onSave }: TaskPanelProps) => {
                         </div>
                     </div>
 
+                    {/* Content (Description) */}
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            Description
+                        </label>
+                        <textarea
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            rows={3}
+                            className={`w-full px-4 py-3 bg-gray-50 dark:bg-neutral-800 border ${errors.content ? 'border-red-500' : 'border-gray-200 dark:border-neutral-700'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all resize-none`}
+                            placeholder="Additional details... (max 1000 characters)"
+                        />
+                        {errors.content && <p className="text-xs text-red-500 mt-1">{errors.content}</p>}
+                        <div className="flex justify-end mt-1">
+                            <span className={`text-[10px] ${content.length > 1000 ? 'text-red-500' : 'text-gray-400'}`}>
+                                {content.length}/1000
+                            </span>
+                        </div>
+                    </div>
+
                     {/* Image Upload */}
                     <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -157,26 +176,6 @@ export const TaskPanel = ({ task, onClose, onSave }: TaskPanelProps) => {
                                 Remove Image
                             </button>
                         )}
-                    </div>
-
-                    {/* Content (Description) */}
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                            Description
-                        </label>
-                        <textarea
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            rows={3}
-                            className={`w-full px-4 py-3 bg-gray-50 dark:bg-neutral-800 border ${errors.content ? 'border-red-500' : 'border-gray-200 dark:border-neutral-700'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all resize-none`}
-                            placeholder="Additional details... (max 1000 characters)"
-                        />
-                        {errors.content && <p className="text-xs text-red-500 mt-1">{errors.content}</p>}
-                        <div className="flex justify-end mt-1">
-                            <span className={`text-[10px] ${content.length > 1000 ? 'text-red-500' : 'text-gray-400'}`}>
-                                {content.length}/1000
-                            </span>
-                        </div>
                     </div>
 
                     {/* Date & Completion Row */}

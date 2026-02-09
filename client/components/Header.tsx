@@ -53,9 +53,9 @@ export const Header = () => {
                             </>
                         ) : (
                             <>
-                                <Link href="#features" className={navLinkClass}>Features</Link>
-                                <Link href="#pricing" className={navLinkClass}>Pricing</Link>
-                                <Link href="#faq" className={navLinkClass}>FAQ</Link>
+                                <Link href="/#features" className={navLinkClass}>Features</Link>
+                                <Link href="/#pricing" className={navLinkClass}>Pricing</Link>
+                                <Link href="/#faq" className={navLinkClass}>FAQ</Link>
                                 <div className="h-4 w-px bg-gray-200 dark:bg-neutral-700 mx-2" />
                                 <Link href="/login" className="text-sm font-bold text-gray-700 dark:text-gray-200">Log In</Link>
                                 <Link href="/signup" className="px-4 py-2 text-sm font-bold text-white bg-blue-600 rounded-full hover:bg-blue-700 shadow-md">Sign Up</Link>

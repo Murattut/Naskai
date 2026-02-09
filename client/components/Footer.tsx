@@ -44,13 +44,10 @@ export const Footer = () => {
                     </p>
 
                     <div className="flex gap-4">
-                        <a href="#" className="text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">
+                        <a href="https://github.com/Murattut" className="text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">
                             <Icon name="github" size={20} />
                         </a>
-                        <a href="#" className="text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">
-                            <Icon name="twitter" size={20} />
-                        </a>
-                        <a href="#" className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                        <a href="https://www.linkedin.com/in/murattut/" className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                             <Icon name="linkedin" size={20} />
                         </a>
                     </div>

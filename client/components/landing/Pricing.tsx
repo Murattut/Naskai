@@ -88,7 +88,7 @@ export const Pricing = () => {
                         </div>
                         <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">For teams and heavy workloads.</p>
                         <Link
-                            href="/contact"
+                            href="/link"
                             className="w-full block text-center py-3 px-4 rounded-lg border border-gray-200 dark:border-neutral-600 text-gray-700 dark:text-gray-200 font-semibold hover:bg-gray-50 dark:hover:bg-neutral-700 transition-colors mb-8"
                         >
                             Contact Sales

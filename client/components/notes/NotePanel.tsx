@@ -68,7 +68,6 @@ export const NotePanel = ({ note, onClose, onSave }: NotePanelProps) => {
     // Date warnings
     const today = new Date().toISOString().split('T')[0];
     const isPast = date < today;
-    const isFuture = date > today;
     const isToday = date === today;
 
     const [isAiLoading, setIsAiLoading] = useState(false);
@@ -124,43 +123,39 @@ export const NotePanel = ({ note, onClose, onSave }: NotePanelProps) => {
                         {note ? "Edit Note" : "New Note"}
                     </h2>
                     <div className="flex items-center gap-3">
-                        {/* AI Buttons */}
-                        <button
-                            type="button"
-                            onClick={() => handleAiAction('summary')}
-                            disabled={isAiLoading || !content}
-                            className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${isAiLoading
-                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                : 'text-purple-600 bg-purple-50 hover:bg-purple-100 dark:text-purple-300 dark:bg-purple-900/20 dark:hover:bg-purple-900/40'
-                                }`}
-                        >
-                            <svg className={`w-4 h-4 ${isAiLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        {/* AI Actions */}
+                        <div className="hidden sm:flex items-center rounded-xl border border-gray-200 dark:border-neutral-700 bg-gray-50 dark:bg-neutral-800 p-1">
+                            <button
+                                type="button"
+                                onClick={() => handleAiAction('summary')}
+                                disabled={isAiLoading || !content}
+                                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            >
                                 {isAiLoading ? (
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v4m0 4v4m-4-4H4m4 0H4m16 0h-4m4 0h-4m0-4h4m-4 0h4m-4 0h-4m0 0l-4 4m4-4l4 4" /> // Simple spinner placeholder path or stick to original icon with spin class
+                                    <span className="w-3.5 h-3.5 rounded-full border-2 border-current border-t-transparent animate-spin" />
                                 ) : (
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
                                 )}
-                            </svg>
-                            {isAiLoading ? 'Summarizing...' : 'Summarize'}
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => handleAiAction('enhance')}
-                            disabled={isAiLoading || !content}
-                            className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${isAiLoading
-                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                : 'text-teal-600 bg-teal-50 hover:bg-teal-100 dark:text-teal-300 dark:bg-teal-900/20 dark:hover:bg-teal-900/40'
-                                }`}
-                        >
-                            <svg className={`w-4 h-4 ${isAiLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                {isAiLoading ? 'Processing...' : 'Summarize'}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleAiAction('enhance')}
+                                disabled={isAiLoading || !content}
+                                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            >
                                 {isAiLoading ? (
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v4m0 4v4m-4-4H4m4 0H4m16 0h-4m4 0h-4m0-4h4m-4 0h4m-4 0h-4m0 0l-4 4m4-4l4 4" /> // Placeholder
+                                    <span className="w-3.5 h-3.5 rounded-full border-2 border-current border-t-transparent animate-spin" />
                                 ) : (
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                    </svg>
                                 )}
-                            </svg>
-                            {isAiLoading ? 'Enhancing...' : 'Enhance'}
-                        </button>
+                                {isAiLoading ? 'Processing...' : 'Enhance'}
+                            </button>
+                        </div>
                         <button
                             onClick={onClose}
                             className="p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-full transition-colors"
@@ -193,6 +188,27 @@ export const NotePanel = ({ note, onClose, onSave }: NotePanelProps) => {
                         </div>
                     </div>
 
+                    {/* Content */}
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            Content <span className="text-red-500">*</span>
+                        </label>
+                        <textarea
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            required
+                            rows={8}
+                            className={`w-full px-4 py-3 bg-gray-50 dark:bg-neutral-800 border ${errors.content ? 'border-red-500' : 'border-gray-200 dark:border-neutral-700'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all resize-none leading-relaxed`}
+                            placeholder="Start writing your note... (10-2500 chars)"
+                        />
+                        {errors.content && <p className="text-xs text-red-500 mt-1">{errors.content}</p>}
+                        <div className="flex justify-end mt-1">
+                            <span className={`text-[10px] ${content.length > 2500 ? 'text-red-500' : 'text-gray-400'}`}>
+                                {content.length}/2500
+                            </span>
+                        </div>
+                    </div>
+
                     {/* Image Upload */}
                     <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -220,27 +236,6 @@ export const NotePanel = ({ note, onClose, onSave }: NotePanelProps) => {
                                 Remove Image
                             </button>
                         )}
-                    </div>
-
-                    {/* Content */}
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                            Content <span className="text-red-500">*</span>
-                        </label>
-                        <textarea
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            required
-                            rows={8}
-                            className={`w-full px-4 py-3 bg-gray-50 dark:bg-neutral-800 border ${errors.content ? 'border-red-500' : 'border-gray-200 dark:border-neutral-700'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all resize-none leading-relaxed`}
-                            placeholder="Start writing your note... (10-2500 chars)"
-                        />
-                        {errors.content && <p className="text-xs text-red-500 mt-1">{errors.content}</p>}
-                        <div className="flex justify-end mt-1">
-                            <span className={`text-[10px] ${content.length > 2500 ? 'text-red-500' : 'text-gray-400'}`}>
-                                {content.length}/2500
-                            </span>
-                        </div>
                     </div>
 
                     {/* Date */}
