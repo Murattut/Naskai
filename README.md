@@ -309,10 +309,7 @@ Pattern used:
 - `createdAt: string`
 - `updatedAt: string`
 
-Important mapping note:
-- Backend persists image as `imageUrl`.
-- Frontend models commonly use `image`.
-- Keep payload mapping explicit to avoid data mismatch.
+Note: The backend uses `imageUrl` for the image field, but the frontend models commonly use `image`. This is an intentional design choice to keep the payload mapping explicit and avoid any confusion or mismatch between the backend and frontend data models. When fetching data from the backend, the frontend will map `imageUrl` to `image` in its internal state and components.
 
 ## 12. Deployment Notes
 
@@ -325,11 +322,11 @@ Important mapping note:
 
 ## 14. Errors
 
-- Cors errors may occur even with correct env vars because of Better Auth cookie policies and browser security. In that case, check the network request details and console logs for clues on cookie handling issues.
+- Cors errors may occur even with correct env vars because of Better Auth cookie policies and browser security. In that case
 
-- AI genereted content may not always be perfect. The AI endpoints are designed to return a best effort result, but edge cases or ambiguous input may lead to less relevant summaries or enhancements. And Because of limited free api I used Llama 2 7b chat, which is not the best for content generation. In a production scenario, you would want to use a more robust model and potentially implement retry logic or user feedback mechanisms for AI-generated content.
+- AI genereted content may not always be perfect. The AI endpoints are designed to return a best effort result, but edge cases or ambiguous input may lead to less relevant summaries or enhancements. Because of limited free api. I used llama-3.1-8b-instant.
 
-- 
+- Turbo and render are both great platforms, but they free tiers have limitations that can lead to downtime or performance issues, login is slow due to Turbo and render may have cold starts. For a production app, a more robust hosting solution with better performance guarantees would be recommended.
 
 ## 15. License
 
