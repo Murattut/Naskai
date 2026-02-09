@@ -6,6 +6,7 @@ import { auth } from "./auth.js";
 
 import UserRoutes from "./routes/UserRoutes.js";
 import AIRoutes from "./routes/AIRoutes.js";
+import { buildPingPayload } from "./utils/ping.js";
 
 
 const app = express();
@@ -47,12 +48,7 @@ app.get("/ping", (req, res) => {
     console.log(`Ping received from client at ${clientTimestamp}`);
     console.log(`Ping sent to client at ${serverTimestamp}`);
 
-    res.json({
-        message: "Ping",
-        clientTimestamp,
-        serverTimestamp,
-        timeDiff: clientTimestamp ? new Date(serverTimestamp) - new Date(clientTimestamp) : null
-    });
+    res.json(buildPingPayload(clientTimestamp, serverTimestamp));
 });
 
 app.get("/api/ping", (req, res) => {
@@ -62,12 +58,7 @@ app.get("/api/ping", (req, res) => {
     console.log(`Ping received from client at ${clientTimestamp}`);
     console.log(`Ping sent to client at ${serverTimestamp}`);
 
-    res.json({
-        message: "Ping",
-        clientTimestamp,
-        serverTimestamp,
-        timeDiff: clientTimestamp ? new Date(serverTimestamp) - new Date(clientTimestamp) : null
-    });
+    res.json(buildPingPayload(clientTimestamp, serverTimestamp));
 });
 
 app.listen(port, "0.0.0.0", () => {
