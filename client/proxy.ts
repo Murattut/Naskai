@@ -2,6 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
 export async function proxy(request: NextRequest) {
+	// If auth server runs on a different origin (common in deploy and also in my case),
+	// this app domain cannot read that cookie in middleware.
+	// Let page-level auth checks handle redirects in that case.
+	const serverURL = process.env.NEXT_PUBLIC_SERVER_URL;
+	if (serverURL) {
+		try {
+			const serverOrigin = new URL(serverURL).origin;
+			if (serverOrigin !== request.nextUrl.origin) {
+				return NextResponse.next();
+			}
+		} catch {
+			// Ignore malformed URL and continue with cookie check.
+		}
+	}
+
 	const sessionCookie = getSessionCookie(request);
 
     // THIS IS NOT SECURE!
