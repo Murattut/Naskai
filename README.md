@@ -320,13 +320,57 @@ Note: The backend uses `imageUrl` for the image field, but the frontend models c
 - Ensure CORS and trusted origins are consistent.
 - If frontend/backend are on different origins, cookie behavior depends on browser policy and Better Auth cookie configuration.
 
-## 14. Errors
+## 13. Technical Trade-offs
 
-- Cors errors may occur even with correct env vars because of Better Auth cookie policies and browser security. In that case
+This project was built for a time-boxed take-home assessment. The implementation choices below were made intentionally to balance reliability, scope, and delivery speed.
 
-- AI genereted content may not always be perfect. The AI endpoints are designed to return a best effort result, but edge cases or ambiguous input may lead to less relevant summaries or enhancements. Because of limited free api. I used llama-3.1-8b-instant.
+### 1) Authentication: Better Auth over custom auth logic
 
-- Turbo and render are both great platforms, but they free tiers have limitations that can lead to downtime or performance issues, login is slow due to Turbo and render may have cold starts. For a production app, a more robust hosting solution with better performance guarantees would be recommended.
+- Decision: Use Better Auth for session management, cookie handling, and protected backend access.
+- Why: Faster path to production-grade auth behavior without writing insecure custom logic.
+- Trade-off: Less low-level control versus a fully custom auth stack.
+
+### 2) Database: Turso (libSQL/SQLite) over MongoDB
+
+- Decision: Use Turso with relational modeling for users, notes, and tasks.
+- Why: Clear relational constraints and predictable CRUD behavior for this data shape.
+- Trade-off: SQLite-oriented scaling characteristics instead of the flexibility of a document-first model.
+
+### 3) AI scope: Implement Option 1 and Option 2 only
+
+- Implemented:
+  - Summarize note content into a concise title (`/api/ai/generate-summary-title`)
+  - Rewrite/enhance note content for clarity (`/api/ai/generate-enhanced-content`)
+- Not implemented:
+  - Option 3 (convert note to action items)
+- Why: With free-tier model constraints, Option 3 output quality was inconsistent for reliable UX, so scope was reduced to the two features with stronger consistency.
+- Trade-off: Smaller AI feature set in exchange for better quality control.
+
+### 4) Hosting and runtime performance: Render free tier + Groq free usage
+
+- Decision: Deploy on cost-free infrastructure for assessment delivery.
+- Why: Keeps setup simple and reproducible for reviewers.
+- Trade-off: Cold starts and occasional request latency can occur, especially on first load or AI calls.
+
+### 5) Image support: UI + data model ready, cloud storage deferred
+
+- Decision: Implement image fields and upload UI flow in notes/tasks, but defer S3/object storage integration.
+- Why: Prioritized core CRUD + auth + AI features for the assessment timeline.
+- Trade-off: Images are not handled through a production-grade media pipeline yet.
+
+### 6) API style: focused, explicit endpoints instead of broad abstractions
+
+- Decision: Keep dedicated routes/controllers for Notes, Tasks, and AI actions.
+- Why: Improves readability and makes behavior straightforward to review in a take-home context.
+- Trade-off: More boilerplate compared to a heavily abstracted architecture.
+
+## 14. Known Limitations / Errors
+
+- CORS issues can still occur even with correct env vars because cookie behavior depends on browser policy, origin settings, and Better Auth configuration. If this happens, verify `CLIENT_URL`, `NEXT_PUBLIC_SERVER_URL`, trusted origins, and cookie settings together.
+
+- AI generated content may not always be perfect. The AI endpoints are best-effort and edge cases or ambiguous input may produce less relevant summaries or enhancements. Due to free-tier limits, this project uses `llama-3.1-8b-instant`.
+
+- Turso and Render free tiers can introduce latency or temporary availability issues. Initial login and first API hits may be slower due to cold starts and free-tier constraints. A paid tier or alternative hosting setup is recommended for production.
 
 ## 15. License
 
